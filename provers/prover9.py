@@ -282,6 +282,42 @@ class Model():
             return False
         return m[0].operations['h'][self.cardinality:]
 
+    def product(self, B, info=False):
+        base = sorted([[x,y] for x in range(self.cardinality) for y in range (B.cardinality)])
+        if info: print(base)
+        op = {}
+        # the maps tup and elt are isomorphisms between tuples and elements
+        if hasattr(self,'tup'): tupA = self.tup
+        else: tupA = {x:(x,) for x in range(self.cardinality)}
+        if hasattr(B,'tup'): tupB = B.tup
+        else: tupB =  {x:(x,) for x in range(B.cardinality)}
+        tup = {x*B.cardinality+y:tupA[x]+tupB[y] for x in range(self.cardinality) for y in range(B.cardinality)}
+        elt = {tup[x]:x for x in range(self.cardinality * B.cardinality)}
+        for f in B.operations:
+            fA = self.operations[f]
+            fB = B.operations[f]
+            if type(fB)==list:
+                if type(fB[0])==list:
+                    op[f] = [[base.index([fA[p[0]][q[0]],fB[p[1]][q[1]]])
+                               for p in base] for q in base]
+                else:
+                    op[f] = [base.index([fA[p[0]],fB[p[1]]]) for p in base]
+            else:
+                op[f] = base.index([fA,fB])
+        rel = {}
+        for r in B.relations:
+            rA = self.relations[r]
+            rB = B.relations[r]
+            if type(rB[0])==list:
+                rel[r] = [[1 if rA[p[0]][q[0]]==1 and rB[p[1]][q[1]]==1 else 0
+                             for p in base] for q in base]
+            else:
+                rel[r] =[1 if rA[p[0]]==1 and rB[p[1]]==1 else 0 for p in base]
+        C = Model(len(base),None,op,rel)
+        C.tup = tup
+        C.elt = elt
+        return C
+
     @staticmethod
     def mace4format(A):
         if A.is_lattice():
