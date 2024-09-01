@@ -546,3 +546,17 @@ def p9lean(pf):
           replace("&","∧").replace("|","∨").replace("$F","F")\
           +"   "+str(li[2]) for li in pf[0].proof]
     return la #"\n".join(la)
+
+def Prod(algs): #create and return the product of several algebras
+  if algs==[]:
+    one = Model(1,operations={"*":[[0]],"v":[[0]],"-":[0],"~":[0]})
+    one.tup={0:()}
+    one.elt={():0}
+    return one
+  P = algs[0] #first algebra
+  if len(algs)==1:
+    P.tup = {x:(x,) for x in range(P.cardinality)}
+    P.elt = {P.tup[x]:x for x in range(P.cardinality)}
+  for i in range(1, len(algs)):
+    P = P.product(algs[i])
+  return P
