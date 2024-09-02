@@ -529,6 +529,7 @@ def union(X):
   for x in X: S |= x
   return set(S)
 
+from itertools import combinations
 def powerset(X):
   PX = [()]
   for i in range(len(X)):
