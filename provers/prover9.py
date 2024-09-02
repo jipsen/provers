@@ -481,6 +481,8 @@ def p9(assume_list, goal_list, mace_seconds=2, prover_seconds=60, cardinality=No
 import networkx as nx
 from graphviz import Graph
 from IPython.display import display_html
+!pip3 install dot2tex
+import dot2tex
 def hasse_diagram(op,rel,dual,unary=[]):
     A = range(len(op))
     G = nx.DiGraph()
