@@ -498,26 +498,39 @@ def hasse_diagram(op,rel,dual,unary=[]):
     P.edges([(str(x[0]),str(x[1])) for x in G.edges])
     return P
 
-def m4diag(li,symbols="<= v", unaryRel=""):
-  # use graphviz to display a mace4 structure as a diagram
+def m4hasse(li,symbols="<= v", unaryRel=""):
+  # use graphviz to convert a list of mace4 structures to a list of digraphs (hasse_diagrams)
   # symbols is a list of binary symbols that define a poset or graph
   # unaryRel is a unary relation symbol that is displayed by red nodes
-  i = -1
   sy = symbols.split(" ")
-  #print(symbols,"***",sy)
-  st = ""
+  gl = []
   for x in li:
-    i+=1
-    st+=str(i)
     uR = x.relations[unaryRel] if unaryRel!="" else [0]*x.cardinality
     for s in sy:
             t = s[:-1] if s[-1]=='d' else s
             if t in x.operations.keys():
-                st+=hasse_diagram(x.operations[t],False,s[-1]=='d',uR)._repr_image_svg_xml()+"&nbsp; &nbsp; &nbsp; "
+                gl.append(hasse_diagram(x.operations[t],False,s[-1]=='d',uR))
             elif t in x.relations.keys():
-                st+=hasse_diagram(x.relations[t], True, s[-1]=='d',uR)._repr_image_svg_xml()+"&nbsp; &nbsp; &nbsp; "
+                gl.append(hasse_diagram(x.relations[t], True, s[-1]=='d',uR))
+  return gl
+
+def m4diag(li,symbols="<= v", unaryRel=""):
+  # display a list of digraphs in Jupyter notebook
+  i = -1
+  st = ""
+  for g in m4hasse(li,symbols="<= v", unaryRel=""):
+    i+=1
+    st+=str(i)
+    st+=g._repr_image_svg_xml()+"&nbsp; &nbsp; &nbsp; "
     st+=" &nbsp; "
   display_html(st,raw=True)
+
+def m4tikz(li,symbols="<= v", unaryRel=""):
+  # create a latex/tikz string for a list of digraphs
+  st = ""
+  for g in m4hasse(li,symbols="<= v", unaryRel=""):
+    st+=dot2tex.dot2tex(str(g), format='tikz', crop=True, figonly=True)+" \\qquad "
+  return st
 
 def intersection(X):
   S = frozenset()
