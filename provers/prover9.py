@@ -533,7 +533,7 @@ from itertools import combinations
 def powerset(X):
   PX = [()]
   for i in range(len(X)):
-    PX += itertools.combinations(X, i+1)
+    PX += combinations(X, i+1)
   return set(frozenset(x) for x in PX)
 
 def eqrel2partition(co):
