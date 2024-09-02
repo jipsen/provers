@@ -20,6 +20,6 @@ except DistributionNotFound:
     __version__ = 'unknown'
 
 from .util import get_program_path, run_program, print_versions
-from .fol import *
-from .prover9 import Model, Proof, prover9, p9, isofilter, p9latex, m4diag, p9lean
-from .eprover import E
+#from .fol import *
+from .prover9 import * #Model, Proof, prover9, p9, isofilter, p9latex, m4diag, p9lean
+#from .eprover import E
