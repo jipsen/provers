@@ -522,18 +522,18 @@ def m4diag(li,symbols="<= v", unaryRel=""):
 def intersection(X):
   S = frozenset()
   for x in X: S &= x
-  return S
+  return set(S)
 
 def union(X):
   S = frozenset()
   for x in X: S |= x
-  return S
+  return set(S)
 
 def powerset(X):
   PX = [()]
   for i in range(len(X)):
     PX += itertools.combinations(X, i+1)
-  return frozenset(frozenset(x) for x in PX)
+  return set(frozenset(x) for x in PX)
 
 def eqrel2partition(co):
     classes = {}
@@ -573,8 +573,8 @@ def precongruences(A):
   return [compatiblepreorders(x) for x in A]
 
 def Con(A):
-  if type(A)==Model: return frozenset(eqrel2partition(x) for x in compatiblepreorders(A,False,True))
-  return [frozenset(eqrel2partition(x) for x in compatiblepreorders(y,False,True)) for y in A]
+  if type(A)==Model: return set(eqrel2partition(x) for x in compatiblepreorders(A,False,True))
+  return [set(eqrel2partition(x) for x in compatiblepreorders(y,False,True)) for y in A]
 
 def poset2model(A):
     if len(A)==0: raise Error("Can't show Hasse diagram of an empty set")
@@ -593,10 +593,10 @@ def show(K,ops=[]): # show a list of Mace4 models using graphviz or show a set o
   if type(K)==list and len(K)>0 and type(K[0])==Model:
     if ops==[]:
       if "<=" in K[0].relations.keys(): ops.append("<=d")
-      if "^" in K[0].operations.keys(): ops.append("^d")
-      if "v" in K[0].operations.keys(): ops.append("v")
-      if "+" in K[0].operations.keys(): ops.append("+")
-      if "*" in K[0].operations.keys(): ops.append("*d")
+      elif "v" in K[0].operations.keys(): ops.append("v")
+      elif "^" in K[0].operations.keys(): ops.append("^d")
+      elif "+" in K[0].operations.keys(): ops.append("+")
+      elif "*" in K[0].operations.keys(): ops.append("*d")
     else: ops=[x.strip() for x in ops]
     st=" ".join(ops)
     m4diag(K,st)
