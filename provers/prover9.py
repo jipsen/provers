@@ -477,14 +477,11 @@ def p9(assume_list, goal_list, mace_seconds=2, prover_seconds=60, cardinality=No
             algs[i] = prover9(assume_list, goal_list, mace_seconds, prover_seconds, i, params=params, info=info, options=options)
         print("Fine spectrum: ", [len(x) for x in algs[1:]])
         return algs
-
 import networkx as nx
 from graphviz import Graph
 from IPython.display import display_html
-import os
-os.system('pip install dot2tex')
 import dot2tex
-def hasse_diagram(op,rel,dual,unary=[]):
+def hasse_diagram(op,rel,dual,unary): #unary is a list (of length len(op)) of color values (see colors below)
     A = range(len(op))
     G = nx.DiGraph()
     if rel:
@@ -495,20 +492,21 @@ def hasse_diagram(op,rel,dual,unary=[]):
         G = nx.algorithms.dag.transitive_reduction(G)
     except:
         pass
+    colors = ["black","red","green","blue","yellow","orange","purple","brown"] #default is black
     P = Graph()
     P.attr('node', shape='circle', width='.15', height='.15', fixedsize='true', fontsize='10')
-    for x in A: P.node(str(x), color='red' if unary[x] else 'black')
+    for x in A: P.node(str(x), color=colors[unary[x]], fillcolor=colors[unary[x]])
     P.edges([(str(x[0]),str(x[1])) for x in G.edges])
     return P
 
-def m4hasse(li,symbols="<= v", unaryRel=""):
+def m4hasse(li,symbols="<= v", unaryRel=[]):
   # use graphviz to convert a list of mace4 structures to a list of digraphs (hasse_diagrams)
   # symbols is a list of binary symbols that define a poset or graph
   # unaryRel is a unary relation symbol that is displayed by red nodes
   sy = symbols.split(" ")
   gl = []
   for x in li:
-    uR = x.relations[unaryRel] if unaryRel!="" else [0]*x.cardinality
+    uR = unaryRel if len(unaryRel)==x.cardinality else [(1 if y in unaryRel else 0) for y in range(x.cardinality)]
     for s in sy:
             t = s[:-1] if s[-1]=='d' else s
             if t in x.operations.keys():
@@ -517,21 +515,21 @@ def m4hasse(li,symbols="<= v", unaryRel=""):
                 gl.append(hasse_diagram(x.relations[t], True, s[-1]=='d',uR))
   return gl
 
-def m4diag(li,symbols="<= v", unaryRel=""):
+def m4diag(li,symbols="<= v", unaryRel=[]):
   # display a list of digraphs in Jupyter notebook
   i = -1
   st = ""
-  for g in m4hasse(li,symbols="<= v", unaryRel=""):
+  for g in m4hasse(li,symbols="<= v", unaryRel=unaryRel):
     i+=1
     st+=str(i)
     st+=g._repr_image_svg_xml()+"&nbsp; &nbsp; &nbsp; "
     st+=" &nbsp; "
   display_html(st,raw=True)
 
-def m4tikz(li,symbols="<= v", unaryRel=""):
+def m4tikz(li,symbols="<= v", unaryRel=[]):
   # create a latex/tikz string for a list of digraphs
   st = ""
-  for g in m4hasse(li,symbols="<= v", unaryRel=""):
+  for g in m4hasse(li,symbols="<= v", unaryRel=unaryRel):
     st+=dot2tex.dot2tex(str(g), format='tikz', crop=True, figonly=True)+" \\qquad "
   return st
 
