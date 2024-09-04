@@ -477,9 +477,12 @@ def p9(assume_list, goal_list, mace_seconds=2, prover_seconds=60, cardinality=No
             algs[i] = prover9(assume_list, goal_list, mace_seconds, prover_seconds, i, params=params, info=info, options=options)
         print("Fine spectrum: ", [len(x) for x in algs[1:]])
         return algs
+
 import networkx as nx
 from graphviz import Graph
 from IPython.display import display_html
+import os
+os.system('pip install dot2tex')
 import dot2tex
 def hasse_diagram(op,rel,dual,unary): #unary is a list (of length len(op)) of color values (see colors below)
     A = range(len(op))
