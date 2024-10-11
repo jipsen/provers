@@ -522,7 +522,7 @@ def m4diag(li,symbols="<= v", unaryRel=[]):
   # display a list of digraphs in Jupyter notebook
   i = -1
   st = ""
-  for g in m4hasse(li,symbols="<= v", unaryRel=unaryRel):
+  for g in m4hasse(li,symbols=symbols, unaryRel=unaryRel):
     i+=1
     st+=str(i)
     st+=g._repr_image_svg_xml()+"&nbsp; &nbsp; &nbsp; "
