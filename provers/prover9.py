@@ -470,14 +470,14 @@ def prover9(assume_list, goal_list, mace_seconds=2, prover_seconds=60, cardinali
     print('No conclusion (timeout)')
     return 'No conclusion (timeout)'
 
-def p9(assume_list, goal_list, mace_seconds=2, prover_seconds=60, cardinality=None, options=[], params='', info=False):
+def p9(assume_list, goal_list, mace_seconds=2, prover_seconds=60, cardinality=None, options=[], params='', noniso=True, info=False):
     global prover9
     if type(cardinality) == int or cardinality == None:
-        return prover9(assume_list, goal_list, mace_seconds, prover_seconds, cardinality, params=params, info=info, options=options)
+        return prover9(assume_list, goal_list, mace_seconds, prover_seconds, cardinality, params=params, noniso=noniso, info=info, options=options)
     else:
         algs = [[], [1]]+[[] for i in range(2, cardinality[0]+1)]
         for i in range(2, cardinality[0]+1):
-            algs[i] = prover9(assume_list, goal_list, mace_seconds, prover_seconds, i, params=params, info=info, options=options)
+            algs[i] = prover9(assume_list, goal_list, mace_seconds, prover_seconds, i, params=params, noniso=noniso, info=info, options=options)
         print("Fine spectrum: ", [len(x) for x in algs[1:]])
         return algs
 
