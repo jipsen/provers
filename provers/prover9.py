@@ -417,6 +417,7 @@ def prover9(assume_list, goal_list, mace_seconds=2, prover_seconds=60, cardinali
         if out_str.find('Exiting with failure') == -1:
             if cardinality != None and not one and noniso:  # find all models of size n
                 out_str = run_program(['interpformat', 'standard'], out_str)
+                if info: print(out_str)
                 if params=='':
                     params = '\" + * v ^ \' - ~ \\ / -> A B C D E F G H I J K P Q R S T U V W a b c d e f g h i j k p q r s t 0 1 <= -<\"'
                 else:
@@ -424,8 +425,10 @@ def prover9(assume_list, goal_list, mace_seconds=2, prover_seconds=60, cardinali
                 out_str = run_program(
                     ['isofilter', 'check', params, 'output', params], out_str)
                 out_str = run_program(['interpformat', 'portable'], out_str)
+                if info: print(out_str)
             else:
                 out_str = run_program(['interpformat', 'portable'], out_str)
+                if info: print(out_str)
             if out_str != '':
                 if info: print(out_str)
                 li = eval(out_str.replace("\\", "\\\\"))
