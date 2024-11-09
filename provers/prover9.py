@@ -427,7 +427,7 @@ def prover9(assume_list, goal_list, mace_seconds=2, prover_seconds=60, cardinali
             else:
                 out_str = run_program(['interpformat', 'portable'], out_str)
             if out_str != '':
-                #print(out_str)
+                if info: print(out_str)
                 li = eval(out_str.replace("\\", "\\\\"))
             else:
                 print("No models found (so far)")
