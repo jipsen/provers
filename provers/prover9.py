@@ -573,6 +573,7 @@ def compatiblepreorders(A, precon=True, sym=False):
   "~":"C(x,y)->C(~y,~x)",
   "'":"C(x,y)->C(y',x')",
   "f":"C(x,y)->C(f(x),f(y))",
+  "t":"C(x,y)->C(t(x,z,w),t(y,z,w))&C(t(z,x,w),t(z,y,w))&C(t(z,w,x),t(z,w,y))",
   "*":"C(x,y)->C(x*z,y*z)&C(z*x,z*y)",
   "+":"C(x,y)->C(x+z,y+z)&C(z+x,z+y)",
   "\\":"C(x,y)->C(y\ z,x\ z)&C(z\ x,z\ y)",
