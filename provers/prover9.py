@@ -101,8 +101,12 @@ def op_var_diag(op, s, c, n=0):
     if type(op[s]) == list:
         base = range(len(op[s]))
         if type(op[s][0]) == list:
-            return [c+str(x+n)+" "+s+" "+c+str(y+n)+" = "+c+str(op[s][x][y]+n)
-                    for x in base for y in base]
+            if type(op[s][0][0]) == list:
+                return [s+"("+c+str(x+n)+","+c+str(y+n)+","+c+str(z+n)+") = "+c+str(op[s][x][y][z]+n)
+                        for x in base for y in base for z in base]
+            else:
+                return [c+str(x+n)+" "+s+" "+c+str(y+n)+" = "+c+str(op[s][x][y]+n)
+                        for x in base for y in base]
         elif s == "'":
             return [c+str(x+n)+s+" = "+c+str(op[s][x]+n) for x in base]
         else:
