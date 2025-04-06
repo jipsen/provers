@@ -450,8 +450,8 @@ def prover9(assume_list, goal_list, mace_seconds=2, prover_seconds=60, cardinali
             if not one:
                 print('No model of cardinality '+str(cardinality))
             return []
-        elif mace_seconds >= 5:
-            return "No models found after "+str(mace_seconds)+" seconds"
+        #elif mace_seconds >= 5:
+        #    return "No models found after "+str(mace_seconds)+" seconds"
 
     out_str = run_program(['prover9', '-t', str(prover_seconds)], in_str)
     if info:
