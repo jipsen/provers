@@ -525,11 +525,12 @@ def m4hasse(li,symbols="<= v", unaryRel=[]):
                 gl.append(hasse_diagram(x.relations[t], True, s[-1]=='d',uR))
   return gl
 
-def m4diag(li,symbols="<= v", unaryRel=[]):
+def m4diag(li,symbols="<= v", cols=[]):
   # display a list of digraphs in Jupyter notebook
+  # cols is a vector of 0,1,...,7 coding for "black","red","green","blue","yellow","orange","purple","brown"
   i = -1
   st = ""
-  for g in m4hasse(li,symbols=symbols, unaryRel=unaryRel):
+  for g in m4hasse(li,symbols=symbols, cols=cols):
     i+=1
     st+=str(i)
     st+=g._repr_image_svg_xml()+"&nbsp; &nbsp; &nbsp; "
@@ -614,7 +615,7 @@ def poset2model(A):
     else: li = [[k[i]<=k[j] for i in S] for j in S]
     return Model(cardinality=len(k),relations={"<=":li})
 
-def show(K,ops=[]): # show a list of Mace4 models using graphviz or show a set of subsets or partitions
+def show(K,ops=[],cols=[]): # show a list of Mace4 models using graphviz or show a set of subsets or partitions
   if type(K)==Model: K=[K]
   if type(K)==list and len(K)>0 and type(K[0])==Model:
     if ops==[]:
@@ -625,9 +626,9 @@ def show(K,ops=[]): # show a list of Mace4 models using graphviz or show a set o
       elif "*" in K[0].operations.keys(): ops.append("*d")
     else: ops=[x.strip() for x in ops]
     st=" ".join(ops)
-    m4diag(K,st)
-  elif type(K)==frozenset: m4diag([poset2model(K)])
-  elif type(K)==list: m4diag([poset2model(x) for x in K])
+    m4diag(K,st,cols)
+  elif type(K)==frozenset: m4diag([poset2model(K)],cols=cols)
+  elif type(K)==list: m4diag([poset2model(x) for x in K],cols=cols)
 
 def check(structure,FOformula_list,info=False):
   FOformula_l=[FOformula_list] if type(FOformula_list)==str else FOformula_list
