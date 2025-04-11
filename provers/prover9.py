@@ -509,14 +509,14 @@ def hasse_diagram(op,rel,dual,unary): #unary is a list (of length len(op)) of co
     P.edges([(str(x[0]),str(x[1])) for x in G.edges])
     return P
 
-def m4hasse(li,symbols="<= v", unaryRel=[]):
+def m4hasse(li,symbols="<= v", cols=[]):
   # use graphviz to convert a list of mace4 structures to a list of digraphs (hasse_diagrams)
   # symbols is a list of binary symbols that define a poset or graph
   # unaryRel is a unary relation symbol that is displayed by red nodes
   sy = symbols.split(" ")
   gl = []
   for x in li:
-    uR = unaryRel if len(unaryRel)==x.cardinality else [(1 if y in unaryRel else 0) for y in range(x.cardinality)]
+    uR = cols if len(cols)==x.cardinality else [(1 if y in cols else 0) for y in range(x.cardinality)]
     for s in sy:
             t = s[:-1] if s[-1]=='d' else s
             if t in x.operations.keys():
