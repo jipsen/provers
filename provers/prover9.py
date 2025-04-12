@@ -505,24 +505,26 @@ def hasse_diagram(op,rel,dual,unary): #unary is a list (of length len(op)) of co
     colors = ["black","red","green","blue","yellow","orange","purple","brown"] #default is black
     P = Graph()
     P.attr('node', shape='circle', width='.15', height='.15', fixedsize='true', fontsize='10')
-    for x in A: P.node(str(x), color=colors[unary[x]], fillcolor=colors[unary[x]])
+    for x in A: P.node(str(x), style='filled', color=colors[unary[x]], fillcolor=colors[unary[x]])
     P.edges([(str(x[0]),str(x[1])) for x in G.edges])
     return P
 
 def m4hasse(li,symbols="<= v", cols=[]):
   # use graphviz to convert a list of mace4 structures to a list of digraphs (hasse_diagrams)
   # symbols is a list of binary symbols that define a poset or graph
-  # unaryRel is a unary relation symbol that is displayed by red nodes
+  # cols is a list of color vectors used to display the nodes of each model in li
+  # cols and li must have the same length
   sy = symbols.split(" ")
   gl = []
-  for x in li:
-    uR = cols if len(cols)==x.cardinality else [(1 if y in cols else 0) for y in range(x.cardinality)]
+  if cols==[]: cols = [[] for x in li]
+  for i in range(len(li)):
+    uR = cols[i] if len(cols[i])==li[i].cardinality else [(1 if y in cols[i] else 0) for y in range(li[i].cardinality)]
     for s in sy:
             t = s[:-1] if s[-1]=='d' else s
-            if t in x.operations.keys():
-                gl.append(hasse_diagram(x.operations[t],False,s[-1]=='d',uR))
-            elif t in x.relations.keys():
-                gl.append(hasse_diagram(x.relations[t], True, s[-1]=='d',uR))
+            if t in li[i].operations.keys():
+                gl.append(hasse_diagram(li[i].operations[t],False,s[-1]=='d',uR))
+            elif t in li[i].relations.keys():
+                gl.append(hasse_diagram(li[i].relations[t], True, s[-1]=='d',uR))
   return gl
 
 def m4diag(li,symbols="<= v", cols=[]):
