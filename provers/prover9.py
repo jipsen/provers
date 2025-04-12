@@ -502,10 +502,10 @@ def hasse_diagram(op,rel,dual,unary): #unary is a list (of length len(op)) of co
         G = nx.algorithms.dag.transitive_reduction(G)
     except:
         pass
-    colors = ["black","red","green","blue","yellow","orange","purple","brown"] #default is black
+    colors = ["white","red","green","blue","yellow","orange","purple","brown"] #default is black
     P = Graph()
     P.attr('node', shape='circle', width='.15', height='.15', fixedsize='true', fontsize='10')
-    for x in A: P.node(str(x), style='filled', color=colors[unary[x]], fillcolor=colors[unary[x]])
+    for x in A: P.node(str(x), style='filled', color="black", fillcolor=colors[unary[x]])
     P.edges([(str(x[0]),str(x[1])) for x in G.edges])
     return P
 
