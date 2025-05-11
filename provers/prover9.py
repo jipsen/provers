@@ -303,7 +303,7 @@ class Model():
             if type(fB)==list:
                 if type(fB[0])==list:
                     op[f] = [[base.index([fA[p[0]][q[0]],fB[p[1]][q[1]]])
-                               for p in base] for q in base]
+                               for q in base] for p in base]
                 else:
                     op[f] = [base.index([fA[p[0]],fB[p[1]]]) for p in base]
             else:
@@ -314,7 +314,7 @@ class Model():
             rB = B.relations[r]
             if type(rB[0])==list:
                 rel[r] = [[1 if rA[p[0]][q[0]]==1 and rB[p[1]][q[1]]==1 else 0
-                             for p in base] for q in base]
+                             for q in base] for p in base]
             else:
                 rel[r] =[1 if rA[p[0]]==1 and rB[p[1]]==1 else 0 for p in base]
         C = Model(len(base),None,op,rel)
