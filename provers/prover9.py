@@ -682,11 +682,11 @@ def p9latex(pf, latex=False):
     from IPython.display import display, Math
     import re
     la = [str(li[0])+"\\quad "+re.sub(r"c(\d)",r"c_\1",li[1]).\
-          replace(" * ","").replace("<=","\le ").replace("!=","\\ne ").\
-          replace("\\ ","\\backslash ").replace(" <->","\iff").\
-          replace(" ->","\\implies").replace("exists","\exists").\
-          replace("# label(non_clause)","").replace("# label(goal)","\quad(goal)").\
-          replace("&","\ \&\ ").replace("|","\quad\mbox{or}\quad").replace("$F","F")\
+          replace(" * ","").replace("<=","\\le ").replace("!=","\\ne ").\
+          replace("\\ ","\\backslash ").replace(" <->","\\iff").\
+          replace(" ->","\\implies").replace("exists","\\exists").\
+          replace("# label(non_clause)","").replace("# label(goal)","\\quad(goal)").\
+          replace("&","\\ \\&\\ ").replace("|","\\quad\\mbox{or}\\quad").replace("$F","F")\
           +"\\quad "+str(li[2]) for li in pf[0].proof]
     if latex: return "$"+"$\n\n$".join(la)+"$"
     else:
