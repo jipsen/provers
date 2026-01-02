@@ -11,15 +11,15 @@ if not os.path.exists(BIN_DIR):
     os.chdir("/content")
 
     # Grab the library and the prover9/mace4 binaries
-    !wget -q https://reflection.grit.ucsb.edu/debian/ubuntu/pool/universe/l/ladr/libladr4_0.0.200911a-2.1build1_amd64.deb
-    !wget -q https://reflection.grit.ucsb.edu/debian/ubuntu/pool/universe/l/ladr/prover9_0.0.200911a-2.1build1_amd64.deb
+    os.system("wget -q https://reflection.grit.ucsb.edu/debian/ubuntu/pool/universe/l/ladr/libladr4_0.0.200911a-2.1build1_amd64.deb")
+    os.system("wget -q https://reflection.grit.ucsb.edu/debian/ubuntu/pool/universe/l/ladr/prover9_0.0.200911a-2.1build1_amd64.deb")
 
-    !rm -rf p9root
-    !mkdir -p p9root
+    os.system("rm -rf p9root")
+    os.system("mkdir -p p9root")
 
     # Unpack both into /content/p9root
-    !dpkg -x libladr4_0.0.200911a-2.1build1_amd64.deb p9root
-    !dpkg -x prover9_0.0.200911a-2.1build1_amd64.deb p9root
+    os.system("dpkg -x libladr4_0.0.200911a-2.1build1_amd64.deb p9root")
+    os.system("dpkg -x prover9_0.0.200911a-2.1build1_amd64.deb p9root")
 
 # Refresh paths in case they were just created
 BIN_DIR = "/content/p9root/usr/bin"
@@ -51,8 +51,8 @@ print(subprocess.run(["prover9", "-version"], text=True,
 
 os.chdir("/content")
 if os.path.exists("provers"):
-    !rm -rf provers
-!git clone -q https://github.com/mmaroti/provers.git
+    os.system("rm -rf provers")
+os.system("git clone -q https://github.com/mmaroti/provers.git")
 
 # Make the local package importable
 if "/content/provers" not in sys.path:
@@ -66,8 +66,8 @@ from provers import *
 # ---------------------------------------------------------------------------
 
 if os.path.exists("Prover9"):
-    !rm -rf Prover9
-!git clone -q https://github.com/jipsen/Prover9.git
+    os.system("rm -rf Prover9")
+os.system("git clone -q https://github.com/jipsen/Prover9.git")
 
 with open("/content/Prover9/Prover9.py") as f:
     code = compile(f.read(), "/content/Prover9/Prover9.py", "exec")
