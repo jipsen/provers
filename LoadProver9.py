@@ -52,7 +52,7 @@ print(subprocess.run(["prover9", "-version"], text=True,
 os.chdir("/content")
 if os.path.exists("provers"):
     os.system("rm -rf provers")
-os.system("git clone -q https://github.com/mmaroti/provers.git")
+os.system("git clone -q https://github.com/jipsen/provers.git")
 
 # Make the local package importable
 if "/content/provers" not in sys.path:
